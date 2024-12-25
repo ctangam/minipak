@@ -1,4 +1,6 @@
 [workspace]
 members = [
     "crates/encore",
+    "crates/minipak",
 ]
+resolver = "1"

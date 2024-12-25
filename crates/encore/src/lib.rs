@@ -1,7 +1,5 @@
 // Don't use libstd
 #![no_std]
-// Allow using inline assembly
-#![feature(asm)]
 // Allow specifying our own eh_personality
 #![feature(lang_items)]
 // Allow using intrinsics
@@ -10,4 +8,8 @@
 // Bring in heap-allocated types like `Vec`, and `String`
 extern crate alloc;
 
+pub mod error; // new!
 pub mod items;
+pub mod memmap; // also new!
+pub mod syscall;
+pub mod utils;
