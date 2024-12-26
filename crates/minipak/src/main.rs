@@ -20,13 +20,23 @@ unsafe extern "C" fn _start() {
     unsafe { naked_asm!("mov rdi, rsp", "call pre_main") }
 }
 
+use encore::prelude::*;
+
 #[unsafe(no_mangle)]
 unsafe fn pre_main(_stack_top: *mut u8) {
-    let s = "Hello from minipak!\n";
-    unsafe { encore::syscall::write(
-        encore::syscall::FileDescriptor::STDOUT,
-        s.as_bytes().as_ptr(),
-        s.len() as _,
-    ) };
-    unsafe { encore::items::init_allocator() };
+    unsafe {
+        init_allocator();
+        main().unwrap();
+        syscall::exit(0);
+    }
+}
+
+fn main() -> Result<(), EncoreError> {
+    let file = File::open("/lib64/ld-linux-x86-64.so.2")?;
+    let map = file.map()?;
+
+    let there_you_go = core::str::from_utf8(&map[1..4]).unwrap();
+    println!("{}", there_you_go);
+
+    Ok(())
 }

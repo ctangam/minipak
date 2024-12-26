@@ -9,7 +9,9 @@
 extern crate alloc;
 
 pub mod error; // new!
+pub mod fs;
 pub mod items;
 pub mod memmap; // also new!
+pub mod prelude;
 pub mod syscall;
 pub mod utils;

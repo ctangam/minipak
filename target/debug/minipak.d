@@ -1,1 +1,0 @@
-/home/amos/minipak/target/debug/minipak: /home/amos/minipak/crates/encore/src/error.rs /home/amos/minipak/crates/encore/src/items.rs /home/amos/minipak/crates/encore/src/lib.rs /home/amos/minipak/crates/encore/src/memmap.rs /home/amos/minipak/crates/encore/src/syscall.rs /home/amos/minipak/crates/minipak/src/main.rs

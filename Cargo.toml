@@ -3,4 +3,11 @@ members = [
     "crates/encore",
     "crates/minipak",
 ]
-resolver = "1"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+debug = true
+lto = "thin"
+panic = "abort"

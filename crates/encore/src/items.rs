@@ -1,6 +1,7 @@
 /// Panic handler
 #[panic_handler]
-unsafe fn panic(_info: &core::panic::PanicInfo) -> ! {
+unsafe fn panic(info: &core::panic::PanicInfo) -> ! {
+    crate::println!("{}", info);
     core::intrinsics::abort();
 }
 
@@ -12,14 +13,14 @@ fn eh_personality() {}
 extern crate rlibc;
 
 /// Used by parts of libcore that aren't panic=abort
-#[no_mangle]
+#[unsafe(no_mangle)]
 #[allow(non_snake_case)]
 unsafe extern "C" fn _Unwind_Resume() {}
 
 /// Provides bcmp (aliased below)
 extern crate compiler_builtins;
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 unsafe extern "C" fn bcmp(s1: *const u8, s2: *const u8, n: usize) -> i32 {
     compiler_builtins::mem::bcmp(s1, s2, n)
 }
@@ -42,5 +43,5 @@ const HEAP_SIZE_MB: u64 = 128;
 pub unsafe fn init_allocator() {
     let heap_size = HEAP_SIZE_MB * 1024 * 1024;
     let heap_bottom = MmapOptions::new(heap_size).map().unwrap();
-    ALLOCATOR.lock().init(heap_bottom as _, heap_size as _);
+    unsafe { ALLOCATOR.lock().init(heap_bottom as _, heap_size as _) };
 }
